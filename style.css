@@ -69,7 +69,7 @@ body {
     font-size: 14px;
     transition: 0.1s;
 }
-.dif-btn:hover, .mode-btn:hover {
+.dif-btn:hover, .mode-btn:hover, .restart-btn:hover {
     border: 1px solid rgb(168, 168, 255);
 }
 
@@ -131,8 +131,6 @@ body {
 
     margin-block: 30px 45px
 }
-
-
 
 .char {
   font-size: 20px;
