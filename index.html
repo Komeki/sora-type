@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing speed</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+    </style>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header class="header">
+        <h3 class="title">type me, Sora</h3>
+        <p class="personalBest" id="personalBest">BEST</p>
+    </header>
+
+    <div class="stats-settings">
+        <div class="stats">
+            <div class="stats__wpm-stat">
+                <p class="stats__cpm-stat" id="cpm">WPM:</p>
+                <p class="stats__cpm-value" id="cpm-value">0</p>
+            </div>
+            <p class="stats__acc-stat" id="accuracy">Accuracy: 100%</p>
+            <p class="stats__time-stat" id="time">Time: 30 sec.</p>
+        </div>
+        <div class="settings">
+            <div class="settings__difficulty">
+                <p class="setting__title">Difficulty: </p>
+                <div id="difficulty__buttons" class="difficulty__buttons">
+                    <button class="dif-btn">easy</button>
+                    <button class="dif-btn">medium</button>
+                    <button class="dif-btn">hard</button>
+                </div>
+            </div>
+            <div class="settings__mode">
+                <p class="setting__title">Mode: </p>
+                <div id="mode__buttons" class="mode__buttons">
+                    <button id='mode-btn' class="mode-btn">Timed (60s)</button>
+                    <button id='mode-btn' class="mode-btn btn-active">Passage</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="display__container">
+        <div class="words-wrapper" id="words-wrapper"></div>
+        <input type="text" class="hidden-input" id="keyboard-hidden-input" autofocus>
+    </main>
+
+    <footer class="action-panel">
+        <button id="restart-btn" class="restart-btn">Restart</button>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

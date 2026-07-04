@@ -1,0 +1,174 @@
+:root {
+    --purple10: hsl(275, 100%, 97%);
+    --purple60: hsl(292, 16%, 49%);
+    --purple95: hsl(292, 42%, 14%);
+    --blue: #2596be;
+    --black: #121212;
+    --grey: #88888a;
+    --yellow: #f3da71;
+    --red: #c3505d;
+    
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Work Sans;
+    font-size: 16px;
+    color: white;
+}
+
+button {
+    text-decoration: none;
+    border: 1px solid var(--grey);
+    background-color: transparent;
+    font-size: 16px;
+    font-weight: 200;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.mode__buttons {
+    width: 175px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.difficulty__buttons {
+    width: 170px;
+}
+
+body {
+    margin-inline: 200px;
+    background-color: var(--black);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin-block: 20px 60px;
+    margin-top: 40px;
+}
+
+.stats-settings {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--grey);
+    align-items: center;
+    margin-bottom: 15px;
+
+}
+
+.settings, .settings__difficulty, .settings__mode {
+    display: flex;
+    align-items: center;
+}
+
+.dif-btn, .mode-btn {
+    font-size: 14px;
+    transition: 0.1s;
+}
+.dif-btn:hover, .mode-btn:hover {
+    border: 1px solid rgb(168, 168, 255);
+}
+
+.btn-active {
+    color: rgb(168, 168, 255);
+    border-color: rgb(168, 168, 255);
+    font-weight: 500;
+}
+
+.setting__title {
+    font-size: 14px;
+    color: var(--grey);
+    margin-inline: 40px 10px;
+}
+
+.stats {
+    display: flex;
+    gap: 30px;
+}
+
+[class$='stat'] {
+    color: var(--grey);
+}
+
+.stats__wpm-stat {
+    width: 101px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats__cpm-value {
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.stats__time-stat {
+    width: 116px;
+    display: flex;
+    justify-content: end;
+}
+
+
+.stats__acc-stat {
+    border-inline: 1px solid var(--grey);
+    padding-inline: 30px;
+    width: 140px;
+    display: flex;
+    justify-content: center;
+}
+
+.hidden-input {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+    color: transparent;
+
+    margin-block: 30px 45px
+}
+
+
+
+.char {
+  font-size: 20px;
+  letter-spacing: 1px;
+  color: #757575; /* Серый цвет для еще не набранных букв */
+  border-bottom: 2px solid transparent;
+  font-family: "Work Sans";
+}
+
+.char.correct {
+  color: #2e7d32; /* Зеленый для правильных */
+}
+
+.char.incorrect {
+  color: #c62828; /* Красный для ошибок */
+  padding-bottom: 1px;
+  border-bottom: 2px solid #c62828; /* Подчеркивание для ошибок */
+}
+
+.char.current {
+    background-color: white;
+    color: black;
+}
+
+.hidden-input {
+    opacity: 0%;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    padding: 30px;
+    border-top: 1px solid var(--grey);
+
+}
+
+.restart-btn {
+    padding-inline: 15px;
+}
