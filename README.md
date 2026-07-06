@@ -1,4 +1,3 @@
-<sub>HTML + CSS + JavaScript</sub>
 ## ⌨️ Typing Speed Test — Frontend Pet Project (Hands-on JS Practice)
 
 ~~Ветка без функции рандом текста:~~
@@ -16,3 +15,5 @@
 ### *-- logic*
 - на экране существует действительный текст, как визуал - **wordsWrapper**;
 - существует скрытый ввод, что не виден на экране - **hiddenInput**. Работает логика соответствия скрытого ввода с действительным текстом.
+
+<sub>HTML + CSS + JavaScript</sub>
