@@ -13,41 +13,42 @@ const restartBtn = document.getElementById('restart-btn');
 const personalBestScore = document.getElementById('personalBest');
 const charElements = wordsWrapper.querySelectorAll('.char');
 const modePanel = document.getElementById('mode__buttons');
+const modeButtons = document.querySelectorAll('.mode-btn');
 const diffPanel = document.getElementById('difficulty__buttons');
 const diffButtons = document.querySelectorAll('.diff-btn');
 
 // Глобальные переменные состояния приложения
-let timeLeft = 30;              // Задаем стартовое время (режим 30 секунд)
+let timeElapsed = 0;
 let timerInterval = null;       // Сюда запишем ID интервала, чтобы управлять им
 let totalMistakes = 0;          // Абсолютный счетчик ВСЕХ ошибок (не уменьшается при Backspace)
 let isTestActive = true;        // Флаг, блокирующий ввод, когда время вышло
 let bestScore = 0;
-let timeMode = false;
+let currentMode = 'timed';
 
 // Функция загрузки текстов из файла data.json
 function loadPassages() {
-  fetch('data.json')
-    .then(response => response.json()) // Превращаем текстовый ответ в объект JS
-    .then(data => {
-      passagesData = data; // Сохраняем базу данных в нашу переменную
-      resetTest();         // Сразу же запускаем игру с новым текстом!
-    })
-    .catch(error => console.error("Ошибка загрузки текстов:", error));
+    fetch('data.json')
+        .then(response => response.json()) // Превращаем текстовый ответ в объект JS
+        .then(data => {
+            passagesData = data; // Сохраняем базу данных в нашу переменную
+            resetTest();         // Сразу же запускаем игру с новым текстом!
+        })
+        .catch(error => console.error("Ошибка загрузки текстов:", error));
 }
 
 modePanel.addEventListener('click', (event) => {
-  if (event.target.classList.contains('mode-btn')) {
-    const clickedBtn = event.target;
+    if (event.target.classList.contains('mode-btn')) {
+        const clickedBtn = event.target;
 
-    const currentActiveBtn = modePanel.querySelector('.btn-active');
-    console.log(currentActiveBtn);
-    if (currentActiveBtn) {
-      currentActiveBtn.classList.remove('btn-active');
+        const currentActiveBtn = modePanel.querySelector('.btn-active');
+        console.log(currentActiveBtn);
+        if (currentActiveBtn) {
+            currentActiveBtn.classList.remove('btn-active');
+        }
+
+        clickedBtn.classList.add('btn-active');
+        clickedBtn.querySelectorAll('mode-btn');
     }
-    
-    clickedBtn.classList.add('btn-active');
-    clickedBtn.querySelectorAll('')
-  }
 });
 
 diffPanel.addEventListener('click', (event) => {
@@ -75,6 +76,23 @@ wordsWrapper.addEventListener('click', () => {
     if (isTestActive) hiddenInput.focus();
 });
 
+// Обработчик переключения режимов (Passage / Timed)
+modeButtons.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+        const selectedMode = event.target.getAttribute('data-mode');
+
+        if (selectedMode === currentMode) return;
+
+        currentMode = selectedMode;
+
+        modeButtons.forEach(mBtn => mBtn.classList.remove('active'));
+        event.target.classList.add('active');
+
+        resetTest();
+    });
+});
+
+
 // Функция отрисовки текста на экране
 function renderPassage(text) {
     wordsWrapper.innerHTML = '';
@@ -90,68 +108,102 @@ function renderPassage(text) {
     });
 }
 
-let maxWPM = 0;
-// Функция работы таймера
+// Сразу выводим рекорд на экран при загрузке страницы
+personalBestScore.textContent = bestScore;
+// Функция завершения теста (чтобы не писать этот код дважды)
+function finishTest() {
+  clearInterval(timerInterval);
+  isTestActive = false;
+  hiddenInput.disabled = true;
+
+  // Берем финальный результат с экрана
+  const currentWPM = parseInt(wpmDisplay.textContent) || 0;
+
+  // ЛОГИКА РЕКОРДОВ:
+  if (bestScore === 0 && currentWPM > 0) {
+    // Сценарий 1: Самый первый тест в жизни пользователя
+    bestScore = currentWPM;
+    localStorage.setItem('typingBestScore', bestScore); // Сохраняем в память
+    personalBestScore.textContent = bestScore;
+    
+    alert(`Baseline Established! Твой первый результат: ${currentWPM} WPM. Теперь попробуй его побить!`);
+  
+  } else if (currentWPM > bestScore) {
+    // Сценарий 2: Старый рекорд побит!
+    bestScore = currentWPM;
+    localStorage.setItem('typingBestScore', bestScore); // Перезаписываем память
+    personalBestScore.textContent = bestScore;
+    
+    // Вызываем конфетти (опишу ниже, как его подключить)
+    triggerConfetti(); 
+    
+    alert(`High Score Smashed! Новый абсолютный рекорд: ${currentWPM} WPM! 🔥`);
+  
+  } else {
+    // Сценарий 3: Рекорд не побит
+    alert(`Тест завершен! Твой результат: ${currentWPM} WPM. (Лучший: ${bestScore} WPM)`);
+  }
+}
+
 function startTimer() {
     timerInterval = setInterval(() => {
-        timeLeft--;
-        timeDisplay.textContent = timeLeft + ' sec.'; // Каждую секунду обновляем цифру на экране
-        // Считаем WPM в реальном времени, пока идет таймер
+        timeElapsed++; // Увеличиваем счетчик каждую секунду
+
+        // 1. Отрисовка времени на экране
+        if (currentMode === 'timed') {
+            timeDisplay.textContent = 15 - timeElapsed + ' sec.'; // Показываем остаток
+        } else {
+            timeDisplay.textContent = timeElapsed + ' sec.'; // Показываем прошедшие секунды
+        }
+
+        // 2. Расчет WPM (универсальный для обоих режимов)
         const totalTyped = hiddenInput.value.length;
-        const timePassedInMinutes = (30 - timeLeft) / 60;
+        const timePassedInMinutes = timeElapsed / 60;
+
         if (timePassedInMinutes > 0 && totalTyped > 0) {
             const wpm = (totalTyped / 5) / timePassedInMinutes;
             wpmDisplay.textContent = Math.round(wpm);
-            maxWPM = wpm > maxWPM ? wpm : maxWPM;
-            personalBestScore.textContent = maxWPM;
         }
-        stopTimer();
-    }, 1000);
-}
 
-function stopTimer() {
-    // Если время вышло — останавливаем тест
-    if (timeLeft <= 0 || wordsWrapper.childElementCount <= hiddenInput.value.length) {
-        clearInterval(timerInterval);
-        isTestActive = false;
-        hiddenInput.disabled = true; // Блокируем инпут
-        alert("Время вышло! Тест завершен.");
-    }
+        // 3. Проверка на завершение времени (только для режима timed)
+        if (currentMode === 'timed' && timeElapsed >= 15) {
+            finishTest();
+        } else if (totalTyped >= currentText.length) {
+            finishTest()
+        }
+
+    }, 1000);
 }
 
 // Функция выдачи случайного текста на основе выбранной сложности
 function getRandomPassage(difficulty) {
-  const passagesArray = passagesData[difficulty];
-  // Математическая формула для выбора случайного элемента из массива
-  const randomIndex = Math.floor(Math.random() * passagesArray.length);
-  return passagesArray[randomIndex];
+    // 1. Берем оригинальный массив фраз
+    const passagesArray = passagesData[difficulty];
+
+    // 2. Создаем копию массива и перемешиваем ее
+    const shuffledArray = [...passagesArray].sort(() => Math.random() - 0.5);
+
+    // 3. Склеиваем все фразы в одну строку через пробел
+    return shuffledArray.join(' ');
 }
 
-// Функция сброса (Рестарт)
 function resetTest() {
-    const currentText = getRandomPassage(currentDifficulty);
-        
-    // 1. Очищаем таймер
     clearInterval(timerInterval);
     timerInterval = null;
-
-    // 2. Сбрасываем переменные состояния
-    timeLeft = 30;
+    timeElapsed = 0; // Сбрасываем прошедшее время в ноль
     totalMistakes = 0;
     isTestActive = true;
 
-    // 3. Сбрасываем инпуты и DOM-элементы
     hiddenInput.value = '';
     hiddenInput.disabled = false;
 
-    timeDisplay.textContent = '30 sec.';
+    // Если режим timed - пишем 30. Если passage - пишем 0
+    timeDisplay.textContent = currentMode === 'timed' ? '15 sec.' : '0 sec.';
     wpmDisplay.textContent = '0';
     accuracyDisplay.textContent = 'Accuracy: 100%';
 
-    // 4. Перерисовываем текст с нуля
+    currentText = getRandomPassage(currentDifficulty);
     renderPassage(currentText);
-
-    // 5. Возвращаем фокус
     hiddenInput.focus();
 }
 
@@ -211,6 +263,11 @@ hiddenInput.addEventListener('input', (event) => {
         accuracyDisplay.textContent = 'Accuracy: ' + Math.round(accuracy) + '%';
     } else {
         accuracyDisplay.textContent = 'Accuracy: 100%';
+    }
+
+    // Если введенный текст ПОЛНОСТЬЮ совпадает с текстом задания
+    if (hiddenInput.value === currentText) {
+        finishTest(); // Останавливаем таймер и тест
     }
 });
 

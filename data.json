@@ -1,17 +1,17 @@
 {
   "easy": [
-    "The sun is very bright today.",
-    "A cat sleeps on the warm mat.",
-    "I like to drink hot tea in the morning."
+    "Blue wings dance under the moon.",
+    "Ri looks at the quiet ocean.",
+    "Bright moonlight warms the dark sea."
   ],
   "medium": [
-    "The quick brown fox jumps over the lazy dog.",
-    "Programming is the process of creating a set of instructions.",
-    "Always remember to drink enough water while sitting at your desk."
+    "An azure swallowtail fluttered across the evening tide.",
+    "The glowing crescent moon beautifully illuminated the water.",
+    "Ri gently caught a fragile, pale blue insect."
   ],
   "hard": [
-    "JavaScript's asynchronous nature (callbacks, promises, async/await) can be tricky!",
-    "In 1969, Margaret Hamilton wrote the flight software for the Apollo space program.",
-    "Wait, what? I thought we were writing HTML & CSS. Where did all this logic come from?!"
+    "A sapphire morpho's erratic flight—braving turbulent ocean winds—fascinated Ri immensely.",
+    "Illuminated by otherworldly moonlight, the restless sea mirrored a glowing lunar orb.",
+    "Seldom had onlookers witnessed such pristine, skyblue wings navigating the midnight deep."
   ]
 }

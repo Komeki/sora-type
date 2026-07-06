@@ -1,13 +1,12 @@
 :root {
-    --purple10: hsl(275, 100%, 97%);
-    --purple95: hsl(292, 42%, 14%);
+    --purple10: hsl(240, 93%, 83%);
     --blue: #2596be;
     --black: #121212;
     --grey: #88888a;
     --yellow: #f3da71;
     --purple60: hsl(292, 16%, 49%);
     --red: #c3505d;
-    
+
 }
 
 * {
@@ -16,6 +15,17 @@
     font-family: Work Sans;
     font-size: 16px;
     color: white;
+}
+
+.company, .title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 200;
+}
+
+.icon {
+    height: 3em;
 }
 
 button {
@@ -48,7 +58,8 @@ body {
     display: flex;
     justify-content: space-between;
     margin-block: 20px 60px;
-    margin-top: 40px;
+    margin-top: 150px;
+    align-items: center;
 }
 
 .bestScore {
@@ -57,8 +68,10 @@ body {
     justify-content: center;
     align-items: center;
     height: 1vh;
-    
+    font-weight: 200;
+
 }
+
 .personalBestTitle {
     display: flex;
 }
@@ -73,16 +86,22 @@ body {
 
 }
 
-.settings, .settings__difficulty, .settings__mode {
+.settings,
+.settings__difficulty,
+.settings__mode {
     display: flex;
     align-items: center;
 }
 
-.diff-btn, .mode-btn {
+.diff-btn,
+.mode-btn {
     font-size: 14px;
     transition: 0.1s;
 }
-.diff-btn:hover, .mode-btn:hover, .restart-btn:hover {
+
+.diff-btn:hover,
+.mode-btn:hover,
+.restart-btn:hover {
     border: 1px solid rgb(168, 168, 255);
 }
 
@@ -146,26 +165,30 @@ body {
 }
 
 .char {
-  font-size: 20px;
-  letter-spacing: 1px;
-  color: #757575; /* Серый цвет для еще не набранных букв */
-  border-bottom: 2px solid transparent;
-  font-family: "Work Sans";
+    font-size: 20px;
+    letter-spacing: 1px;
+    color: #757575;
+    /* Серый цвет для еще не набранных букв */
+    border-bottom: 2px solid transparent;
+    font-family: "Work Sans";
 }
 
 .char.correct {
-  color: #2e7d32; /* Зеленый для правильных */
+    color: #2e7d32;
+    /* Зеленый для правильных */
 }
 
 .char.incorrect {
-  color: #c62828; /* Красный для ошибок */
-  padding-bottom: 1px;
-  border-bottom: 2px solid #c62828; /* Подчеркивание для ошибок */
+    color: #c62828;
+    /* Красный для ошибок */
+    padding-bottom: 1px;
+    border-bottom: 2px solid #c62828;
+    /* Подчеркивание для ошибок */
 }
 
 .char.current {
-    background-color: white;
-    color: black;
+    border-left: 2px solid var(--purple10);
+    padding-left: 1px;
 }
 
 .hidden-input {

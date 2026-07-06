@@ -14,7 +14,10 @@
 
 <body>
     <header class="header">
-        <h3 class="title">type me, Sora</h3>
+        <div class="company">
+            <img src="assets/images/clouds.png" alt="icon" class="icon">
+            <h3 class="title">type me, Sora</h3>
+        </div>
         <div class="bestScore">
             <p class="personalBestTitle">BEST</p>
             <p class="personalBest" id="personalBest"></p>
@@ -43,8 +46,8 @@
             <div class="settings__mode">
                 <p class="setting__title">Mode: </p>
                 <div id="mode__buttons" class="mode__buttons">
-                    <button id='mode-btn' class="mode-btn">Timed</button>
-                    <button id='mode-btn' class="mode-btn btn-active">Passage</button>
+                    <button id='mode-btn' class="mode-btn btn-active" data-mode="timed">Timed</button>
+                    <button id='mode-btn' class="mode-btn" data-mode="passage">Passage</button>
                 </div>
             </div>
         </div>
