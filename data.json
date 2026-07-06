@@ -1,0 +1,17 @@
+{
+  "easy": [
+    "The sun is very bright today.",
+    "A cat sleeps on the warm mat.",
+    "I like to drink hot tea in the morning."
+  ],
+  "medium": [
+    "The quick brown fox jumps over the lazy dog.",
+    "Programming is the process of creating a set of instructions.",
+    "Always remember to drink enough water while sitting at your desk."
+  ],
+  "hard": [
+    "JavaScript's asynchronous nature (callbacks, promises, async/await) can be tricky!",
+    "In 1969, Margaret Hamilton wrote the flight software for the Apollo space program.",
+    "Wait, what? I thought we were writing HTML & CSS. Where did all this logic come from?!"
+  ]
+}

@@ -1,11 +1,11 @@
 :root {
     --purple10: hsl(275, 100%, 97%);
-    --purple60: hsl(292, 16%, 49%);
     --purple95: hsl(292, 42%, 14%);
     --blue: #2596be;
     --black: #121212;
     --grey: #88888a;
     --yellow: #f3da71;
+    --purple60: hsl(292, 16%, 49%);
     --red: #c3505d;
     
 }
@@ -29,9 +29,10 @@ button {
 }
 
 .mode__buttons {
-    width: 175px;
     display: flex;
-    justify-content: space-evenly;
+    gap: 5px;
+    justify-content: start;
+    width: 130px;
 }
 
 .difficulty__buttons {
@@ -50,6 +51,18 @@ body {
     margin-top: 40px;
 }
 
+.bestScore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 1vh;
+    
+}
+.personalBestTitle {
+    display: flex;
+}
+
 .stats-settings {
     display: flex;
     justify-content: space-between;
@@ -65,11 +78,11 @@ body {
     align-items: center;
 }
 
-.dif-btn, .mode-btn {
+.diff-btn, .mode-btn {
     font-size: 14px;
     transition: 0.1s;
 }
-.dif-btn:hover, .mode-btn:hover, .restart-btn:hover {
+.diff-btn:hover, .mode-btn:hover, .restart-btn:hover {
     border: 1px solid rgb(168, 168, 255);
 }
 
@@ -92,6 +105,7 @@ body {
 
 [class$='stat'] {
     color: var(--grey);
+    width: 70px;
 }
 
 .stats__wpm-stat {
@@ -109,7 +123,6 @@ body {
 }
 
 .stats__time-stat {
-    width: 116px;
     display: flex;
     justify-content: end;
 }

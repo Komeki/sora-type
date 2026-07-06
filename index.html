@@ -15,7 +15,11 @@
 <body>
     <header class="header">
         <h3 class="title">type me, Sora</h3>
-        <p class="personalBest" id="personalBest">BEST</p>
+        <div class="bestScore">
+            <p class="personalBestTitle">BEST</p>
+            <p class="personalBest" id="personalBest"></p>
+        </div>
+        
     </header>
 
     <div class="stats-settings">
@@ -31,15 +35,15 @@
             <div class="settings__difficulty">
                 <p class="setting__title">Difficulty: </p>
                 <div id="difficulty__buttons" class="difficulty__buttons">
-                    <button class="dif-btn">easy</button>
-                    <button class="dif-btn">medium</button>
-                    <button class="dif-btn">hard</button>
+                    <button class="diff-btn" data-difficulty="easy">easy</button>
+                    <button class="diff-btn btn-active" data-difficulty="medium">medium</button>
+                    <button class="diff-btn" data-difficulty="hard">hard</button>
                 </div>
             </div>
             <div class="settings__mode">
                 <p class="setting__title">Mode: </p>
                 <div id="mode__buttons" class="mode__buttons">
-                    <button id='mode-btn' class="mode-btn">Timed (60s)</button>
+                    <button id='mode-btn' class="mode-btn">Timed</button>
                     <button id='mode-btn' class="mode-btn btn-active">Passage</button>
                 </div>
             </div>

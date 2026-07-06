@@ -1,5 +1,7 @@
-// Временный текст для теста (заглушка)
-const testPassage = "The quick brown fox jumps over the lazy dog.";
+// Новые глобальные переменные
+let passagesData = {};          // Сюда мы загрузим все тексты из JSON
+let currentDifficulty = 'medium'; // Сложность по умолчанию
+let currentText = '';           // Текущий текст, который юзер должен набрать
 
 // Захватываем элементы из HTML DOM дерева
 const wordsWrapper = document.getElementById('words-wrapper');
@@ -12,6 +14,7 @@ const personalBestScore = document.getElementById('personalBest');
 const charElements = wordsWrapper.querySelectorAll('.char');
 const modePanel = document.getElementById('mode__buttons');
 const diffPanel = document.getElementById('difficulty__buttons');
+const diffButtons = document.querySelectorAll('.diff-btn');
 
 // Глобальные переменные состояния приложения
 let timeLeft = 30;              // Задаем стартовое время (режим 30 секунд)
@@ -21,6 +24,16 @@ let isTestActive = true;        // Флаг, блокирующий ввод, к
 let bestScore = 0;
 let timeMode = false;
 
+// Функция загрузки текстов из файла data.json
+function loadPassages() {
+  fetch('data.json')
+    .then(response => response.json()) // Превращаем текстовый ответ в объект JS
+    .then(data => {
+      passagesData = data; // Сохраняем базу данных в нашу переменную
+      resetTest();         // Сразу же запускаем игру с новым текстом!
+    })
+    .catch(error => console.error("Ошибка загрузки текстов:", error));
+}
 
 modePanel.addEventListener('click', (event) => {
   if (event.target.classList.contains('mode-btn')) {
@@ -33,6 +46,7 @@ modePanel.addEventListener('click', (event) => {
     }
     
     clickedBtn.classList.add('btn-active');
+    clickedBtn.querySelectorAll('')
   }
 });
 
@@ -48,6 +62,14 @@ diffPanel.addEventListener('click', (event) => {
     clickedBtn.classList.add('btn-active');
 });
 
+diffButtons.forEach(btn => {
+    btn.addEventListener('click', (event) => {
+        const selectedDifficulty = event.target.getAttribute('data-difficulty');
+        if (selectedDifficulty === currentDifficulty) return;
+        currentDifficulty = selectedDifficulty;
+        resetTest();
+    })
+});
 
 wordsWrapper.addEventListener('click', () => {
     if (isTestActive) hiddenInput.focus();
@@ -73,7 +95,7 @@ let maxWPM = 0;
 function startTimer() {
     timerInterval = setInterval(() => {
         timeLeft--;
-        timeDisplay.textContent = 'Time: ' + timeLeft + ' sec.'; // Каждую секунду обновляем цифру на экране
+        timeDisplay.textContent = timeLeft + ' sec.'; // Каждую секунду обновляем цифру на экране
         // Считаем WPM в реальном времени, пока идет таймер
         const totalTyped = hiddenInput.value.length;
         const timePassedInMinutes = (30 - timeLeft) / 60;
@@ -97,8 +119,18 @@ function stopTimer() {
     }
 }
 
+// Функция выдачи случайного текста на основе выбранной сложности
+function getRandomPassage(difficulty) {
+  const passagesArray = passagesData[difficulty];
+  // Математическая формула для выбора случайного элемента из массива
+  const randomIndex = Math.floor(Math.random() * passagesArray.length);
+  return passagesArray[randomIndex];
+}
+
 // Функция сброса (Рестарт)
 function resetTest() {
+    const currentText = getRandomPassage(currentDifficulty);
+        
     // 1. Очищаем таймер
     clearInterval(timerInterval);
     timerInterval = null;
@@ -112,12 +144,12 @@ function resetTest() {
     hiddenInput.value = '';
     hiddenInput.disabled = false;
 
-    timeDisplay.textContent = 'Time: 30 sec.';
+    timeDisplay.textContent = '30 sec.';
     wpmDisplay.textContent = '0';
     accuracyDisplay.textContent = 'Accuracy: 100%';
 
     // 4. Перерисовываем текст с нуля
-    renderPassage(testPassage);
+    renderPassage(currentText);
 
     // 5. Возвращаем фокус
     hiddenInput.focus();
@@ -185,5 +217,4 @@ hiddenInput.addEventListener('input', (event) => {
 // Вешаем событие клика на кнопку Рестарт
 restartBtn.addEventListener('click', resetTest);
 
-// Стартовый запуск приложения
-renderPassage(testPassage);
+loadPassages();
